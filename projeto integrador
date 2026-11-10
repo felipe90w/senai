@@ -1,0 +1,322 @@
+import whois
+import sys
+
+if len(sys.argv) >= 2:
+ domain = sys.argv[1]
+else:
+ domain = 'chess.com'
+
+print(f'consultando: {domain}')
+
+try:
+  consulta = whois.whois(domain)
+  print(f'email: {consulta.email}')
+  print(f'texto: {consulta.text}')
+except Exception as e:
+  print(f'erro: {e}')
+ativos = ['WEB01','DB01']
+
+for ativo in ativos:
+ if ativo == 'DB01':
+  print(ativo, '- Criticidade Crítica')
+else:
+ print(ativo, '- Criticidade Alta')
+
+cvss = [4.5, 8.2, 6.4]
+
+for score in cvss:
+ if score >= 7:
+  print('ALERTA DE VULNERABILIDADE')
+else:
+ print('Sem alerta')
+
+
+print("=" * 50)
+print(" NETsENTINEL - CADASTRO DE ATIVOS DE REDE ")
+print("=" * 50)
+
+nome_host = input("Digite o nome do Host (Hostname): ")
+endereco_ip = input("Digite o Endereço IP do host (ex: 192.168.1.10):")
+endereco_mac = input("Digite o Endereço MAC (ex: 00:1B:44:11:3A:B7):")
+sistema_operacional = input("Digite o Sistema Operacional (ex: Linux, Windows):")
+
+porta_critica = int(input("Digite a principal porta aberta a monitorar (Ex: 22, 80):"))
+nivel_criticidade = int(input("Nível de criticidade do Ativo (1-Baixo a 5-Crítico):"))
+
+tempo_resposta_ping = float(input("Digite o tempo médio de Ping em ms (ex: 12.45):"))
+score_cvss = float(input("Pontuação média de vulnerabilidade CVSS (0.0 a 10.0):"))
+
+firewall_ativo_input = input("O Firewall está ativo? (s/n)").strip().lower()
+firewall_ativo = firewall_ativo_input == 's'
+
+status_ativo_input = input("O host está acessível no momento? (s/n):").strip().lower()
+host_ativo = status_ativo_input == 's'
+
+print(f"Hostname: {nome_host} (Tipo: {type(nome_host).__name__})")
+print(f"Endereço IP: {endereco_ip}")
+print(f"Endereço MAC: {endereco_mac}")
+print(f"Sistema Operacional: {sistema_operacional}")
+print(f"Porta Alvo: {porta_critica} (Tipo: {type(porta_critica).__name__})")
+print(f"Nível de Criticidade: {nivel_criticidade}/5")
+print(f"Latência (Ping): {tempo_resposta_ping} ms (Tipo: {type(tempo_resposta_ping).__name__})")
+print(f"Score de Risco (CVSS): {score_cvss}/10.0")
+print(f"Firewall Ativo: {firewall_ativo} (Tipo: {type(firewall_ativo).__name__})")
+print(f"Host Acessível: {host_ativo}")
+
+print("-"*50)
+alerta_seguranca = (score_cvss >= 7.0) or (not firewall_ativo)
+print(f"Alerta de Segurança Requirido? {alerta_seguranca}")
+if alerta_seguranca:
+ print("ATENÇÃO: Este host possui alto risco de segurança ou firewall está desativado")
+else:
+ print("STATUS: Host dentro dos paâmetros de conformidade")
+print("="*50)
+
+hostname = input('informe o hostname do dispositivo ')
+port = int(input('Porta principal do dispositivo: '))
+cvss = float(input('Score cvss: '))
+firewall_input = input('firewall ativo? (s/n) ')
+firewall = firewall_input == 's'
+
+nivel_criticidade = (cvss >= 7) or (not firewall)
+pontuação = 0
+
+if cvss >= 8:
+ pontuação += 5
+
+if not firewall:
+ pontuação += 3
+
+if port == 22:
+ pontuação += 2
+
+
+if port == 3389:
+ pontuação += 7
+
+print('====== RESULTADO =======')
+print(f'hostname: {hostname}')
+print(f'pontuação: {pontuação}')
+
+porta = int(input ("informe a porta: "))
+cvss = int(input ("cvss socre: "))
+firewall_ativo = False
+if porta == 23:
+ print(f'CRÍTICO: TELNET PORT -- {porta}')
+else:
+ print(f"porta esta dentro dos parametros")
+if porta == 23:
+ print(f"risco critico")
+if porta == 3389:
+ print(f"risco alto: porta:3389 ")
+if porta == 22:
+ print(f"risco medio")
+else:
+ print(f'risco baixo')
+if cvss >= 8 and not firewall_ativo:
+ print(f'Alerta Crítico')
+if cvss >= 7:
+ print(f"ALERTA")
+
+
+firewall_ativo = input('firewall ativo (s/n)')
+firewall_ativo = firewall_ativo == 's'
+if firewall_ativo:
+ print("firewall ativo")
+
+if not firewall_ativo:
+ print('firewall inativo')
+
+cvss = float(input('CVSS: '))
+firewall = input('firewall ativo (s/n): ')
+firewall_ativo = firewall.lower() == 's'
+
+if cvss >= 9 and not firewall_ativo:
+ print('alerta critico')
+alerta_seguranca = (score_cvss >= 7.0) or (not firewall_ativo)
+
+print(f"Alerta de Segurança Requirido? {alerta_seguranca}")
+if alerta_seguranca:
+ print("ATENÇÃO: Este host possui alto risco de segurança ou firewall está desativado")
+else:
+ print("STATUS: Host dentro dos paâmetros de conformidade")
+print("="*50)
+
+def saudar(user):
+  print(f'Olá {user}! Bem Vindo ao NetSentinel!')
+
+def monitorarHost(host):
+ print(f'Monitrando Host: {host} vericando ...')
+
+inventario = [
+{
+'hostname': 'WEB01',
+'ip': '192.168.1.10',
+'sistema': 'Linux',
+'criticidade': 'ALTA',
+'status': 'ONLINE'
+},
+{
+'hostname': 'DB01',
+'ip': '192.168.1.20',
+'sistema': 'Linux',
+'criticidade': 'CRITICA',
+'status': 'ONLINE'
+},
+{
+'hostname': 'FW01',
+'ip': '192.168.1.1',
+'sistema': 'FirewallOS',
+'criticidade': 'CRITICA',
+'status': 'ONLINE'
+}
+]
+
+for ativo in inventario:
+    print(f"{ativo['hostname']} - {ativo['status']}")
+
+import socket
+
+
+def scanner_port(host, port):
+    cliente = socket.socket()
+    try:
+        cliente.connect((host, port))
+        resultado = cliente.connect_ex((host, port))
+        if resultado == 0:
+            print("Porta se encontra aberta")
+        else:
+            print("Porta Fechada")
+    finally:
+        cliente.close()
+
+
+import requests
+
+descricoes = []
+
+try:
+    resposta = requests.get(
+        "https://services.nvd.nist.gov/rest/json/cves/2.0",
+        timeout=10
+    )
+    dados = resposta.json()
+
+    print(dados['vulnerabilities'][0]['cve']['id'])
+
+    for item in dados['vulnerabilities']:
+        for i in item['cve']['descriptions']:
+            descricoes.append(i)
+except requests.exceptions.RequestException:
+    print('Erro ao consultar a api do NVD')
+
+import csv
+
+arquivo = open(
+    'relatorio_vulnerabilidades.csv',
+    'a',
+    newline='\n'
+)
+
+relatorio = csv.writer(arquivo)
+
+for desc in descricoes:
+    relatorio.writerow([desc['value']])
+
+arquivo.close()
+print(f'Relatório gerado com sucesso {relatorio}')
+
+import socket  
+import requests  
+import csv
+
+do = input('dominio: ')  
+ 
+print('dns')
+ 
+ip = socket.gethostbyname(do)
+
+print(f'dominio: {do}')
+print(f'IP: {ip}')
+
+subdominios = ['www','mail','ftp','api','blog']
+for sub in subdominios:
+
+ host = f'{sub}.{do}'
+try:
+ endereco = socket.gethostbyname(host)
+ print(f'{host} -> {endereco}')
+except:
+ pass
+
+url = f'https://{do}'
+resposta = requests.get(
+url,
+timeout=10
+)
+print(resposta.status_code)
+ 
+for chave, valor in resposta.headers.items():
+ print(
+chave,        ':', valor
+)
+ inventario = []
+def cadastrar_inventario(host, ip, server, content_type):
+  inventario.append({
+      'hostname': host,
+      'ip':ip,
+      'server': server,
+      'type': content_type
+  })
+
+  print(f' Ativo {dominio} registrado com sucesso.')
+
+
+
+dominio = input('Informe um domínio para investigação (sem https): ')
+
+
+
+cadastrar_inventario(host,ip,resposta.headers.get('Server'),resposta.headers.get('Content-Type'))
+try:
+ 
+    resposta_nvd = requests.get(
+        'https://services.nvd.nist.gov/rest/json/cves/2.0',
+        timeout=10
+    )
+ 
+    print(resposta_nvd.status_code)
+ 
+except Exception as erro:
+ 
+    print('Falha:', erro)
+ 
+dados = resposta_nvd.json()
+print(dados.keys())  
+
+cve = dados['vulnerabilities'][0]
+print(cve)
+
+cve_id = cve['cve']['id']
+print('CVE:', cve_id)
+
+def classificar_cvss(cvss):
+
+ if cvss >= 9:
+  return 'CRITICA'
+
+ elif cvss >= 7:
+  return 'ALTA'
+
+ elif cvss >= 4:
+  return 'MEDIA'
+ else:
+  return 'BAIXA'
+ 
+notas = [3.1, 5.4, 7.8, 9.4]
+for nota in notas:
+
+ print(
+nota,
+classificar_cvss(nota)
+)
